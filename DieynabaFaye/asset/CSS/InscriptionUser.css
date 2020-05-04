@@ -1,0 +1,172 @@
+.opacité:after {
+    content:'';
+    background: url('../IMG/INTÉGRATIONPHP/Images/img-bg.jpg') no-repeat;
+    background-size: 100%; 
+    position: absolute;
+    top:0px;
+    left: 0px;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    opacity: 0.90; /* Here is my opacity */
+}
+.opacité {
+    position: relative;
+    width:100%;
+    height: 100%;
+    font-weight:bold;
+    text-align:center;
+    background-color: rgba(5, 36, 38, 0.548);
+}
+
+body{
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+}
+.header{
+    background-color: #042425;
+    width: 100%;
+    height: 100px;
+}
+#logo{
+    width: 5%;
+    height: 100px;
+    margin-left: 10px;
+    float: left;
+}
+#logo img{
+    width: 100%;
+    height: 100%;
+}
+.texte{
+    color: #f8fdfd;
+    font-size: 20px;
+    font-family: 'Josefin Sans';
+    padding: 10px;
+    margin: 0;
+}
+
+/* partie inscription */
+.whitefont{
+    width: 80%;
+    height: 720px;
+    margin: 1% 0 10% 10%;
+    background-color: #f8fdfd;
+    box-shadow: 2px 2px 5px rgb(52, 94, 95);
+    border-radius: 10px;
+}
+.whitefont1{
+    width: 100%;
+    height: 715px;
+    box-shadow: 2px 2px 3px rgb(52, 94, 95);
+    background-color: #f8fdfd;
+    border-radius: 10px;
+}
+.whitefont2{
+    width: 100%;
+    height: 710px;
+    box-shadow: 2px 2px 3px rgb(52, 94, 95);
+    background-color: #f8fdfd;
+    border-radius: 10px;
+    
+}
+.whitefont3{
+    width: 100%;
+    height: 705px;
+    box-shadow: 2px 2px 3px rgb(52, 94, 95);
+    background-color: #f8fdfd;
+    border-radius: 10px;
+}
+.blocgauche{
+    width: 60%;
+    height: 628px;
+    float: left;
+}
+.titre{
+    width: 100%;
+    height: 100px;
+    text-align: left;
+}
+.titre h2{
+    font-size: 30px;
+    margin-left: 30px;
+    font-family: 'Josefin Sans';
+    color: rgb(48, 47, 47);
+    font-weight: bold;
+}
+.titre p{
+    font-size: 15pxpx;
+    margin-left: 30px;
+    margin-top: -20px;
+    font-family: 'Open Sans';
+    color: rgb(92, 92, 92);
+}
+.soulign{
+    width: 100%;
+    border: 1px solid rgb(107, 104, 104);
+}
+label{
+    float: left;
+    margin-left: 30px;
+    font-size: 15px;
+    color: rgb(92, 92, 92);
+    font-family: 'Open sans';
+}
+input[type="text"]{
+    float: left;
+    margin-left: 30px;
+    width: 80%;
+    height: 10px;
+    font-family: 'Open sans';
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 15px;
+    color: rgb(92, 92, 92);
+}
+.error{
+    color: red;
+    font-size: 12px;
+    width: 100%;
+    font-weight: bold;
+    margin-top: -20px;
+}
+input[type="submit"]{
+    width: 30%;
+    height: 45px;
+    background-color: #51bfd0;
+    border-radius: 5px;
+    border: 1px solid silver;
+    color: #f8fdfd;
+    font-size: 20px;
+    font-family: 'Open Sans';
+
+}
+
+.blocdroite{
+    width: 37%;
+    height: 628px;
+    float: right;
+}
+.blocdroite{
+    color: rgb(48, 47, 47);
+    font-size: 20px;
+    font-family: 'Open Sans';
+}
+.avatar{
+    width: 250px;
+    height: 250px;
+    border: 4px solid #51bfd0;
+    border-radius: 200px;
+    margin-left: 50px;
+    margin-top: 30px;
+    position: relative;
+}
+
+#preview img{
+    width: 250px;
+    height: 250px;
+    border-radius: 200px;
+}
+

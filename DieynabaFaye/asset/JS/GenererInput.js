@@ -1,0 +1,4 @@
+function inputGenerate(){
+    alert('ok')
+    
+}
