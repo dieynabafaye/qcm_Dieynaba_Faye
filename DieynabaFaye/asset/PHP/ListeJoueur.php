@@ -42,9 +42,9 @@
                              ?>
                              <table>
                             <tr>
-                            <th style="width: 150px;">NOM</th>
-                            <th style="width: 150px;">PRENOM</th>
-                            <th style="width: 150px;">SCORE</th>
+                            <strong><th style="width: 150px;">NOM</th></strong>
+                            <strong><th style="width: 150px;">PRENOM</th></strong>
+                            <strong><th style="width: 150px;">SCORE</th></strong>
                                 </tr>
                                 <?php
 

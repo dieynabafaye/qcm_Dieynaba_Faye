@@ -5,7 +5,6 @@
     // unset($_SESSION['envoie']);
     if(!empty($_POST['envoie'])){
       unset($_POST['envoie']);
-      var_dump ($_POST);
     }
     
 ?>
@@ -239,9 +238,15 @@
                                <input type="submit" value="Terminer" name="envoie" class="envoie">
                               <?php
                             }
+                            if($_GET['page']>0){
+ 
                           ?>
                          
                           <input type="submit" value="Precedent" name="precedent" class="retour">
+
+                          <?php
+                            }
+                          ?>
                         </div>
                     </form>
                 </div>

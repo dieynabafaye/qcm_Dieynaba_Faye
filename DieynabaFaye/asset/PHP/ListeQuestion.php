@@ -1,6 +1,7 @@
 <?php
     $liste = file_get_contents('../JSON/ListeQuestion.json');
     $liste = json_decode($liste, true);
+    $initial = count($liste);
 
 ?>
 <!DOCTYPE html>
@@ -28,12 +29,14 @@
                     <form action="" method="post">
                         <br>
                         <label for="nbPts">Nbre de question/Jeu</label>
-                        <input type="text" name="nbPts" id="nbPts" value="<?php if(isset($_POST["nbPts"])){ echo $_POST['nbPts'];}?>">
+                        <input type="text" name="nbPts" id="nbPts" value="<?php if(isset($_POST["nbPts"])){ echo $_POST["nbPts"];}
+                        if(empty($_POST['nbPts'])){ echo  $initial;} ?>">
                         <input type="submit" name="valider" value="OK">
                     </form>
                 </div>
                 <div class="list">
                     <?php
+                       
                         if(!empty($_POST['valider'])){
                             if(!empty($_POST["nbPts"]) && $_POST["nbPts"]>=5){
                                 $_SESSION['p'] = $_POST["nbPts"];
@@ -44,7 +47,7 @@
                             if(!empty($_SESSION['p'])){
                                 /************calculer du nombre total d'element du tableau*************** */
                                 $total = count($liste);
-                               /**************************** ********************************************/
+                               /************************************************************************/
                                /***********************************calcul du nombre de page************ */
                                $nbr=$_SESSION['p'];
                               $nbpage = ((int)($total / $nbr));
