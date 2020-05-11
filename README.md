@@ -11,7 +11,7 @@ Contenu du fichier « README »
 	Le lien GitHub du projet
 -	https://github.com/dieynabafaye/qcm_dieynaba_faye
 	Le lien d’hébergement du projet
--	https://dianafaye.000webhostapp.com/
+-	http://dianaquiz.freevar.com
 	Tous les paramètres de connexion pour le teste du projet (Login et mot de passe Admin)
 -	Admin/admin
 -	Joueur/joueur
