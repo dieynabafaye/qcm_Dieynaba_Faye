@@ -38,8 +38,22 @@
                     <?php
                        
                         if(!empty($_POST['valider'])){
+                            $initial = $_POST['nbPts'];
+                            $nombreQuestion = file_get_contents('../JSON/nombreparpage.json');
+                            $nombreQuestion = json_decode($nombreQuestion, true);
                             if(!empty($_POST["nbPts"]) && $_POST["nbPts"]>=5){
                                 $_SESSION['p'] = $_POST["nbPts"];
+                                if(!empty($nombreQuestion)){
+                                    $nombreQuestion=[];
+                                    $nombreQuestion = $_POST['nbPts'];
+                                    $contenu = json_encode($nombreQuestion);
+                                    file_put_contents('../JSON/nombreparpage.json', $nombreQuestion);
+                                }
+                                else{
+                                    $nombreQuestion[] = $_POST['nbPts'];
+                                    $contenu = json_encode($nombreQuestion);
+                                    file_put_contents('../JSON/nombreparpage.json', $nombreQuestion);
+                                }
                             }else{
                                 echo "veuillez entrer un nombre supérieur ou égal à 5 !";
                             }
@@ -65,7 +79,7 @@
                                }
                                /********************************************************************** */
                         for($i=$indice*$nbr; $i<$nb; $i++){
-                            if($liste[$i]['reponse']=='choixMultiples'){
+                            if($liste[$i]['reponse']=='choixMultiple'){
                                 $numero = $i+1;
                                 $reponseVrai = count($liste[$i]['vrais']);
                                 $titreQuestion = $liste[$i]['question'];
@@ -84,8 +98,6 @@
                                         } ?>> 
                                         <label><?php echo $reponse;?></label><br>
                                     </div>
-
-
                                     <?php
                                 }
                             }
@@ -119,7 +131,7 @@
                                     $bon = $reponse;
                                 ?>
                                     <div class="divgenere">
-                                        <input type="text" name="genere[]" id="genere" value="<?php echo $bon;?>" ><br><br>
+                                        <input type="text" name="genered[]" id="genere" value="<?php echo $bon;?>" ><br><br>
                                 
                                     </div>
 
@@ -133,10 +145,12 @@
                     ?>
                 </div>
                 <div>
-                    <a href="Acceuil.php?page=listeQuestion&&indice=<?php if($_GET['indice']==0){ echo $_GET['indice'];}else{ echo $_GET['indice']-1;} ?>" class="bouton1">Précédent</a>
+                    <a href="Acceuil.php?page=listeQuestion&&indice=<?php if($_GET['indice']==0){ echo $_GET['indice'];
+                    }else{ echo $_GET['indice']-1;} ?>" class="bouton1">Précédent</a>
                 </div>
                 <div>
-                    <a href="Acceuil.php?page=listeQuestion&&indice=<?php if($indice<$nbpage){ echo $indice;}else{ echo $nbpage-1;} ?>" class="bouton2">Suivant</a>
+                    <a href="Acceuil.php?page=listeQuestion&&indice=<?php if($indice<$nbpage){ echo $indice;
+                    }else{ echo $nbpage-1;} ?>" class="bouton2">Suivant</a>
                 </div>
                         <?php
                              }

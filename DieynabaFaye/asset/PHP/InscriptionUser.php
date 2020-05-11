@@ -13,7 +13,7 @@
 <div class="opacité">
          <!--div contenant le logo et le texte-->
         <div class="header">
-            <div id="logo"><img src="../IMG/INTÉGRATIONPHP/Images/logo-QuizzSA.png" alt=""></div>
+            <div id="logo"><img src="../IMG/INTEGRATIONPHP/Images/logo-QuizzSA.png" alt=""></div>
             <div class="texte"><h2>Le plaisir de jouer</h2></div>
         </div>
         <!--partie inscription-->
@@ -203,7 +203,7 @@
             $json = json_encode($json);
             $json = file_put_contents('../JSON/Utilisateur.json',$json);
 
-            header('location: ./PageJoueur.php');
+            echo "<script type='text/javascript'>document.location.replace('./PageJoueur.php');</script>";
         }
         
     }

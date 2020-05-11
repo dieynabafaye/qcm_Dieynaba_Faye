@@ -46,20 +46,20 @@ function getData($file="Utilisateur"){
             $_SESSION['avatar']=$_SESSION['user']['avatar'];
             $_SESSION['prenom']=$_SESSION['user']['prenom'];
             $_SESSION['nom']=$_SESSION['user']['nom'];
-             header ("location:./Acceuil.php");
+            echo "<script type='text/javascript'>document.location.replace('./Acceuil.php');</script>";
           }
           if($result=="jeux"){
               $_SESSION['Joueur']="role";
             $_SESSION['avatar']=$_SESSION['user']['avatar'];
             $_SESSION['prenom']=$_SESSION['user']['prenom'];
             $_SESSION['nom']=$_SESSION['user']['nom'];
+            $_SESSION['login']=$_SESSION['user']['login'];
             $_SESSION['questionJouer']=array();
-             header ("location:./PageJoueur.php?page=0");
+            $_SESSION['trouver']=array();
+            echo "<script type='text/javascript'>document.location.replace('./PageJoueur.php?page=0');</script>";
           }
-                
          } 
         }
-    
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +75,7 @@ function getData($file="Utilisateur"){
     <div class="opacité">
         <!--div contenant le logo et le texte-->
         <div class="header">
-            <div id="logo"><img src="../IMG/INTÉGRATIONPHP/Images/logo-QuizzSA.png" alt=""></div>
+            <div id="logo"><img src="../IMG/INTEGRATIONPHP/Images/logo-QuizzSA.png" alt=""></div>
             <div class="texte"><h2>Le plaisir de jouer</h2></div>
         </div>
          <!--partie connexion et inscription-->
@@ -91,7 +91,7 @@ function getData($file="Utilisateur"){
                 <!--Bloc input pour le login et l'icone1-->
                 <div class="blocIcone1">
                     <div class="icone1">
-                        <img src="../IMG/INTÉGRATIONPHP/Images/Icônes/ic-login.png" alt="">
+                        <img src="../IMG/INTEGRATIONPHP/Images/Icones/ic-login.png" alt="">
                     </div>
                         <input type="text" name="login" id="login" error="error1" placeholder="Login"><br><br><br>
                     <div class="error1" id="error1"></div>
@@ -99,7 +99,7 @@ function getData($file="Utilisateur"){
                 <!--Bloc input pour le mot de passe et l'icone2-->
                 <div class="blocIcone2">
                     <div class="icone2">
-                        <img src="../IMG/INTÉGRATIONPHP/Images/Icônes/icone-password.png" alt="">
+                        <img src="../IMG/INTEGRATIONPHP/Images/Icones/icone-password.png" alt="">
                     </div>
                         <input type="password" name="pwd" id="pwd" error="error2" style="color: black"; placeholder="Password"><br><br><br>
                     <div class="error" id="error2" style="color: red;  margin-top: -20px;"></div>

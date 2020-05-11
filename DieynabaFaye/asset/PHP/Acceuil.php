@@ -13,7 +13,7 @@
 <div class="opacité">
         <!--div contenant le logo et le texte-->
         <div class="header">
-            <div id="logo"><img src="../IMG/INTÉGRATIONPHP/Images/logo-QuizzSA.png" alt=""></div>
+            <div id="logo"><img src="../IMG/INTEGRATIONPHP/Images/logo-QuizzSA.png" alt=""></div>
             <div class="texte"><h2>Le plaisir de jouer</h2></div>
         </div>
     
@@ -47,29 +47,34 @@
                 </div>
                     <nav>
                         <ul>
-                        <div class="lien1">
-                                <a href="Acceuil.php?page=listeQuestion&&indice=0">
-                                <li>&nbsp;Liste Questions</li>
-                                <img src="../IMG/INTÉGRATIONPHP/Images/Icônes/ic-liste.png" alt="">
+                            <div class="lien1">
+                                <a href="Acceuil.php?page=modifSuprrQuestion">
+                                <li>&nbsp;Modif/Suppr Questions</li>
+                                <img src="../IMG/INTEGRATIONPHP/Images/Icones/ic-ajout.png" alt="">
                                 </a>
                             </div>
                             <div class="lien2">
-                                <a href="Acceuil.php?page=creerAdmin">
-                                <li>Créer Admin</li>
-                                <img src="../IMG/INTÉGRATIONPHP/Images/Icônes/ic-ajout.png" alt="">
+                                <a href="Acceuil.php?page=listeQuestion&&indice=0">
+                                <li>&nbsp;Liste Questions</li>
+                                <img src="../IMG/INTEGRATIONPHP/Images/Icones/ic-liste.png" alt="">
                                 </a>
                             </div>
                             <div class="lien3">
-                                <a href="Acceuil.php?page=listeJoueur&&indice=0">
-                                <li>Liste joueurs</li>
-                                <img src="../IMG/INTÉGRATIONPHP/Images/Icônes/ic-liste.png" alt="">
+                                <a href="Acceuil.php?page=creerAdmin">
+                                <li>Créer Admin</li>
+                                <img src="../IMG/INTEGRATIONPHP/Images/Icones/ic-ajout.png" alt="">
                                 </a>
                             </div>
-
                             <div class="lien4">
+                                <a href="Acceuil.php?page=listeJoueur&&indice=0">
+                                <li>Liste joueurs</li>
+                                <img src="../IMG/INTEGRATIONPHP/Images/Icones/ic-liste.png" alt="">
+                                </a>
+                            </div>
+                            <div class="lien5">
                                 <a href="Acceuil.php?page=creerQuestion">
                                 <li>Créer Questions</li>
-                                <img src="../IMG/INTÉGRATIONPHP/Images/Icônes/ic-ajout.png" alt="">
+                                <img src="../IMG/INTEGRATIONPHP/Images/Icones/ic-ajout.png" alt="">
                                 </a>
                             </div>
                         </ul>
@@ -83,17 +88,20 @@
                     else{
                         $page = $_GET['page'];
                         switch ($page) {
+                            case 'modifSuprrQuestion':
+                                include('./ModifSuppr.php');
+                                break;
                             case 'listeQuestion':
                                 include('./ListeQuestion.php');
                                 break;
                             case 'creerAdmin':
-                                include('./CréerAdmin.php');
+                                include('./CreerAdmin.php');
                                 break;
                             case 'listeJoueur':
                                 include('./ListeJoueur.php');
                                 break;
                             case 'creerQuestion':
-                                include('./Créerquestion1.php');
+                                include('./Creerquestion1.php');
                                 break;
                             default:
                                 'Erreur de chargement';

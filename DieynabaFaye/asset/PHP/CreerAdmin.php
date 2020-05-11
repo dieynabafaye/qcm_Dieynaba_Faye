@@ -20,7 +20,7 @@
                             <p>Pour tester votre niveau de culture générale</p>
                                 <div class="soulign"></div>
                     </div>
-                    <form action="CréerAdmin.php" method="post" id="myForm" enctype="multipart/form-data">
+                    <form action="Acceuil.php?page=creerAdmin" method="post" id="myForm" enctype="multipart/form-data">
                         <!-- Prénom -->
                         <label for="prenom">Prénom</label><br>
                         <input type="text" name="prenom" id="prenom" error="error1" placeholder="Prenom"><br><br><br>
@@ -194,7 +194,7 @@
                 $json = json_encode($json);
                 $json = file_put_contents('../JSON/Utilisateur.json',$json);
 
-                header('location: CréerAdmin.php');
+                echo "<script type='text/javascript'>document.location.replace('./Acceuil.php?page=creerAdmin');</script>";
             }
             
         }

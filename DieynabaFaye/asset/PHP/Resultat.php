@@ -7,9 +7,15 @@
         $niveau = $_POST['niveau'];
         unset($_POST['niveau']);
         unset($_POST['nbPts']);
-        
+        /*************************************************** */
+        function valeur_identic( $arrayA , $arrayB){
+            sort($arrayA);
+            sort($arrayB);
+            return $arrayA==$arrayB;
+        }
+        /************************************************* */
 
-        $question = file_get_contents('../JSON/ListeQuestion.json');
+        $question = file_get_contents('../JSON/peujouer.json');
         $question = json_decode($question, true);
        
         $data[$niveau] = $_POST;
@@ -19,20 +25,22 @@
         unset($_SESSION['bon']);
         unset($_SESSION['rep']);
 
-        $fin = count($question);
+        $fin = $_SESSION['limite'];
         unset($_POST['question']);
         unset($_POST['precedent']);
         unset($_POST['type']);
         $tab = $_POST;
+        $_SESSION['post']=$tab;
         $_SESSION['message'] = "";
         $tab1=array();
         $verif =  array();
 
+        $jouer = $question[$niveau]['id'];
             if($niveau<$fin-1){
                 $pageSuivant = $niveau + 1;
                 array_push($_SESSION['questionJouer'],$niveau);
                 /********************************************************************************** */
-                if($question[$niveau]['reponse']=='choixMultiples' || $question[$niveau]['reponse']=='choixSimple'){
+                if($question[$niveau]['reponse']=='choixMultiple' || $question[$niveau]['reponse']=='choixSimple'){
                     if(count($tab)==0){
                         $_SESSION['message']= "Veuillez répondre à cette question!";
                     }
@@ -43,41 +51,45 @@
                     }
                 }
                 if(!empty($_SESSION['message'])){
-                    header('location: ./Pagejoueur.php?page='.$pageSuivant);
+                    echo "<script type='text/javascript'>document.location.replace('./PageJoueur.php?page='.$pageSuivant);</script>";
                     unset($_SESSION['message']);
 
                 }else{
                     $monscore = $question[$niveau]['nbPts'];
-                    foreach ($tab as $key => $value) {
+                    foreach ($tab['rep'] as $key => $value) {
                         array_push($tab1,$value);
                     }
                 /********************************************************************* */
-                if($question[$niveau]['reponse']=='choixMultiples'){
+                if($question[$niveau]['reponse']=='choixMultiple'){
                     if(count($question[$niveau]['vrais'])==1){
                         $nombre = 1;
                     }
                     else{
                         $nombre = count($question[$niveau]['vrais']);
                     }
-                    for($i=1; $i<=$nombre; $i++){
+                    for($i=0; $i<$nombre; $i++){
                         $bon = $question[$niveau]['vrais'][$i];
                         array_push($verif, $bon);
                     }
-                    $resultat = array_diff($tab1,$verif);
-                    if($resultat==false){
+                    $resultat =valeur_identic($tab1, $verif);
+                    if($resultat==1){
                         $_SESSION['point'] =  $_SESSION['point']  + $monscore;
+                        array_push($_SESSION['trouver'], $jouer);
                     }else{
                         $_SESSION['point'] =  $_SESSION['point']  + 0;
+                        
                     }
                 }
                 elseif($question[$niveau]['reponse']=='choixSimple'){
+                    $tab1=$_POST['rep'];
                     $repBon = $question[$niveau]['vrais'];
-                    array_push($verif,$repBon);
-                    $resultat = array_diff($tab1,$verif);
-                    if($resultat==false){
+                    
+                    if($tab1==$repBon){
                         $_SESSION['point'] =  $_SESSION['point']  + $monscore;
+                        array_push($_SESSION['trouver'], $jouer);
                     }else{
                         $_SESSION['point'] =  $_SESSION['point']  + 0;
+                       
                     }
                 }
                 else{
@@ -85,19 +97,22 @@
                     $repVrai = $question[$niveau]['rep'];
                     if($repBon==$repVrai){
                         $_SESSION['point'] =  $_SESSION['point']  + $monscore;
+                        array_push($_SESSION['trouver'], $jouer);
                     }
                     else{
                         $_SESSION['point'] =  $_SESSION['point']  + 0;
+  
                     }
                 }
-                    header('location: ./PageJoueur.php?page='.$pageSuivant);
+                echo "<script type='text/javascript'>document.location.replace('./PageJoueur.php?page='.$pageSuivant);</script>";
+                    // echo "<script type='text/javascript'>document.location.replace('./joueur.php?page=$t');</script>";
                 }
             }
             else{/*******************else final */
                 $pageSuivant = $niveau + 1;
                 array_push($_SESSION['questionJouer'],$niveau);
                 /********************************************************************************** */
-                if($question[$niveau]['reponse']=='choixMultiples' || $question[$niveau]['reponse']=='choixSimple'){
+                if($question[$niveau]['reponse']=='choixMultiple' || $question[$niveau]['reponse']=='choixSimple'){
                     if(count($tab)==0){
                         $_SESSION['message']= "Veuillez répondre à cette question!";
                        
@@ -109,7 +124,7 @@
                     }
                 }
                 if(!empty($_SESSION['message'])){
-                    header('location: ./Terminer.php');
+                    echo "<script type='text/javascript'>document.location.replace('./Terminer.php');</script>";
                     unset($_SESSION['message']);
 
                 }else{
@@ -118,7 +133,7 @@
                         array_push($tab1,$value);
                     }
                 /********************************************************************* */
-                if($question[$niveau]['reponse']=='choixMultiples'){
+                if($question[$niveau]['reponse']=='choixMultiple'){
                     if(count($question[$niveau]['vrais'])==1){
                         $nombre = 1;
                     }
@@ -129,21 +144,25 @@
                         $bon = $question[$niveau]['vrais'][$i];
                         array_push($verif, $bon);
                     }
-                    $resultat = array_diff($tab1,$verif);
-                    if($resultat==false){
+                    $resultat =valeur_identic($tab1, $verif);
+                    if($resultat==1){
                         $_SESSION['point'] =  $_SESSION['point']  + $monscore;
+                        array_push($_SESSION['trouver'], $jouer);
                     }else{
                         $_SESSION['point'] =  $_SESSION['point']  + 0;
+
                     }
                 }
                 elseif($question[$niveau]['reponse']=='choixSimple'){
+                    $tab1=$_POST['rep'];
                     $repBon = $question[$niveau]['vrais'];
-                    array_push($verif,$repBon);
-                    $resultat = array_diff($tab1,$verif);
-                    if($resultat==false){
+                    
+                    if($tab1==$repBon){
                         $_SESSION['point'] =  $_SESSION['point']  + $monscore;
+                        array_push($_SESSION['trouver'], $jouer);
                     }else{
                         $_SESSION['point'] =  $_SESSION['point']  + 0;
+                       
                     }
                 }
                 else{
@@ -151,12 +170,14 @@
                     $repVrai = $question[$niveau]['rep'];
                     if($repBon==$repVrai){
                         $_SESSION['point'] =  $_SESSION['point']  + $monscore;
+                        array_push($_SESSION['trouver'], $jouer);
                     }
                     else{
                         $_SESSION['point'] =  $_SESSION['point']  + 0;
+                        
                     }
                 }
-                    header('location: ./Terminer.php');
+                    echo "<script type='text/javascript'>document.location.replace('./Terminer.php');</script>";
                 }
             }
 
@@ -166,7 +187,7 @@
         $data = file_get_contents('../JSON/temp.json');
         $data = json_decode($data, true);
 
-        $question = file_get_contents('../JSON/ListeQuestion.json');
+        $question = file_get_contents('../JSON/peujouer.json');
         $question = json_decode($question, true);
         $found = array();
 
@@ -180,7 +201,7 @@
         
         $_SESSION['rep'] = "";  
         $score = $question[$page]['nbPts'];
-        if($data[$page]['type']=="choixMultiples"){
+        if($data[$page]['type']=="choixMultiple"){
             $_SESSION['vrai'] = array();
             if(count($data[$page]['rep'])==1){
 
@@ -223,7 +244,7 @@
                 $_SESSION['point'] =  $_SESSION['point']  - $score;
             }
         }
-        header('location: ./Pagejoueur.php?page='.$page);
+        echo "<script type='text/javascript'>document.location.replace('./PageJoueur.php?page='.$pageSuivant);</script>";
     }
    
 ?>

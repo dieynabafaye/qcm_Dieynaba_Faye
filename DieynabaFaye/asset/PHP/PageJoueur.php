@@ -1,11 +1,76 @@
 <?php
     session_start();
-    $questions = file_get_contents('../JSON/ListeQuestion.json');
-    $questions = json_decode($questions, true);
-    // unset($_SESSION['envoie']);
+    /************************************************************************************ */
+    $id=$_SESSION['login'];
+/********************************traitement pour interdire les questions deja trouver********************************************* */
+ $tabdejatrouver=array();
+$dejatrouver = file_get_contents('../JSON/trouver.json');
+$dejatrouver= json_decode($dejatrouver, true);
+/************les question à jouer************* */
+ $ajouer = file_get_contents('../JSON/peujouer.json');
+$ajouer= json_decode($ajouer, true);
+/**************les questions****************** */
+ $questionsall = file_get_contents('../JSON/ListeQuestion.json');
+  $questionsall = json_decode($questionsall, true);
+  /************************************* */
+  /**************les questions a jouer****************** */
+ $contenu = file_get_contents('../JSON/peujouer.json');
+  $contenu = json_decode($contenu, true);
+  /************************************* */
+  /******on verifier et parcours les questions deja trouver de l'utilisateur si ca existe */
+  if(!empty($dejatrouver)){
+    for ($d=0; $d <count($dejatrouver) ; $d++) { 
+      foreach ($dejatrouver[$d] as $key => $value) {
+        if($key==$id){
+          
+          $tabdejatrouver=$dejatrouver[$d][$key];
+        }
+      }
+    }
+  }
+  /******************on vide le tableau a jouer***************************** */
+  $vider=array();
+  $vide= file_get_contents('../JSON/peujouer.json');
+  $vide = json_decode($vide, true);
+   $contenu=json_encode($vider);
+     file_put_contents('../JSON/peujouer.json',$contenu);
+  /******************************************************* */
+   /*****************on parcour les questions pour retrouver les non trouver ********/
+  if(!empty($questionsall)){
+    $questionajouer=array();
+     //var_dump($questionsall);
+    for ($t=0; $t <count($questionsall) ; $t++) { 
+      if(!in_array($questionsall[$t]['id'],$tabdejatrouver)){
+        $fr=$questionsall[$t];
+        array_push($questionajouer,$fr);
+        $remplir= file_get_contents('../JSON/peujouer.json');
+        $remplir = json_decode($remplir, true);
+        $remplir=json_encode($questionajouer);
+          file_put_contents('../JSON/peujouer.json',$remplir);
+        /******************************** */
+       }
+    }
+   
+  }
+  $question= file_get_contents('../JSON/peujouer.json');
+  $question = json_decode($question, true);
+  
+     $questions=$question;
+/******************************************************************************************* */
+   
     if(!empty($_POST['envoie'])){
       unset($_POST['envoie']);
     }
+  
+   
+    $nbQuestion = file_get_contents('../JSON/nombreparpage.json');
+    $nbQuestion = json_decode($nbQuestion, true);
+    if(count($questions)>$nbQuestion){
+      $limite = $nbQuestion;
+    }else{
+      $limite = count($questions);
+    }
+    
     
 ?>
 <!DOCTYPE html>
@@ -82,6 +147,18 @@
       color: white;
       float: right;
     }
+    .checkgenere{
+      width: 20px;
+      margin-left: 10px;
+      height: 20px;
+    }
+    .checkgenere1{
+      width: 35%;
+      margin-left: 10px;
+      font-size: 20px;
+      padding: 10px;
+      height: 10px;
+    }
     .retour{
       background: #51bfd0;
       height: 37px;
@@ -93,8 +170,9 @@
     #nbPts{
       float: right;
       width: 10%;
-      /* height: 20px; */
-      font-size: medium;
+      height: 30px;
+      text-align: center;
+      font-size: 20px;
     }
     .inputRep{
       margin-left: 30px;
@@ -102,13 +180,32 @@
       /* margin-top: 50px; */
       padding: 10px
     }
+    .labelgenere{
+      font-size: 25px;
+      font-family: 'Open Sans';
+    }
+    .titreQuestion{
+      font-size: 25px;
+      font-family: 'Open Sans';
+    }
+    .soulign{
+      width: 28%;
+      border: 1px solid black;
+      margin-left: 236px;
+      margin-top: -20px;
+    }
+    #question{
+      font-size: 20px;
+      font-family: 'Open Sans';
+      color: #545050;
+    }
     </style>
 </head>
 <body>
     <div class="opacité">
             <!--div contenant le logo et le texte-->
             <div class="header">
-                <div id="logo"><img src="../IMG/INTÉGRATIONPHP/Images/logo-QuizzSA.png" alt=""></div>
+                <div id="logo"><img src="../IMG/INTEGRATIONPHP/Images/logo-QuizzSA.png" alt=""></div>
                 <div class="texte"><h2>Le plaisir de jouer</h2></div>
             </div>
         
@@ -147,31 +244,49 @@
                 <div class="blocdroite">
                     <div class="titre-header">
                     <?php 
-                      if(!empty($questions)){
-                        $totalQuestion = count($questions);
+                      if(!empty($limite)){
+                        $totalQuestion = $limite;
+                        $_SESSION['limite'] = $limite;
                       }
                       else{
                         $totalQuestion = 0;
                       }
-                      $numQuestion = $_GET['page'] + 1;
-
+                      if(!empty($questions)){
+                         $numQuestion = $_GET['page'] + 1;
+                       }else{
+                         $numQuestion = 0;
+                         $sms="vous avez épuisé le stock de question du jeu!";
+                       }
+                     if(!empty($questions)){
                       $laQuestion = $questions[$_GET['page']]['question'];
+                     }else{
+
+                       $laQuestion="";
+                     }
+                      
                     ?>
-                        <label for="">Questions: <?php echo $numQuestion; ?>/<?php echo $totalQuestion; ?></label><br><br>
-                        <label for=""><?php echo $laQuestion; ?></label><br>
+                        <label for="" class="titreQuestion">Questions: <?php echo $numQuestion; ?>/<?php echo $totalQuestion; ?></label><br><br>
+                        <div class="soulign"></div>
+                        <label for="" id="question"><?php echo $laQuestion;?></label><br>
                         <label for="" style="color: red;"><?php if(!empty($_SESSION['message'])){ echo $_SESSION['message'];} ?></label>
                     </div>
                     <form method="post" action="Resultat.php">
                     <input type="hidden" name="niveau" value="<?php echo $_GET['page']; ?>">
                         <div class="milieu">
-                        <input type="text" name="nbPts" id="nbPts" disabled value="<?php echo $questions[$_GET['page']]['nbPts'].' pts'; ?>">
-                        <input type="hidden" name="question" value="<?php echo $questions[$_GET['page']]['question']; ?>">
-                        <input type="hidden" name="type" value="<?php echo $questions[$_GET['page']]['reponse']; ?>">
+                        <?php
+                          if(empty($questions)){
+                        ?>
+                        <label for="erreur" style="color: red; font-size: 20px;">Vous avez épuisé le stock de question du jeu!</label>
+                        <?php
+                          }?>
+                        <input type="<?php if(!empty($questions)){echo "text";}else{ echo "hidden";} ?>" name="nbPts" id="nbPts" disabled value="<?php if(!empty($questions)){ echo $questions[$_GET['page']]['nbPts'].' pts'; }?>">
+                        <input type="hidden" name="question" value="<?php if(!empty($questions)){ echo $questions[$_GET['page']]['question']; }?>">
+                        <input type="hidden" name="type" value="<?php if(!empty($questions)){ echo $questions[$_GET['page']]['reponse'];} ?>">
                         <?php 
-                        
-                          if($questions[$_GET['page']]['reponse']=='choixMultiples'){
+                          if(!empty($questions)){
+                          if($questions[$_GET['page']]['reponse']=='choixMultiple'){
                               for($i=1; $i<=count($questions[$_GET['page']]['rep']); $i++){
-                                $rep=$questions[$_GET['page']]['rep'][$i];/* on recupere la rer par rep et on l'affiche*/
+                                $rep=$questions[$_GET['page']]['rep'][$i];/* on recupere la reponse dans rep et on l'affiche*/
                                 ?>
                                 <div class="inputRep">
                                   <input type="checkbox" name="rep[]" value="<?php echo $i; ?>" class="checkgenere" <?php
@@ -184,11 +299,15 @@
                                       foreach ($_SESSION['vrai'] as $key => $value) {
                                         if($i==$value){
                                           echo "checked";
-                                        }                                      }
+                                        }                                      
+                                      }
                                     }
                                   }
                                   ?>>
-                                  <label class="labelgenere"><?php echo $rep;?></label><br><br>
+                                  <label class="labelgenere"><?php echo $rep;?></label>
+                                  <input type="hidden" name="reponse[]" value="<?php echo $rep;?>">
+                                  <br><br>
+                                  
                                 </div>
                                 <?php
 
@@ -196,7 +315,7 @@
                           }
                           elseif($questions[$_GET['page']]['reponse']=='choixSimple'){
                             for($i=1; $i<=count($questions[$_GET['page']]['rep']); $i++){
-                              $rep=$questions[$_GET['page']]['rep'][$i];/* on recupere la rer par rep et on l'affiche*/
+                              $rep=$questions[$_GET['page']]['rep'][$i];/* on recupere la reponse dans rep et on l'affiche*/
                               ?>
                               <div class="inputRep">
                                 <input type="radio" name="rep" value="<?php echo $i; ?>" class="checkgenere" <?php
@@ -206,7 +325,9 @@
                                     }
                                   }
                                 ?>>
-                                <label class="labelgenere"><?php echo $rep;?></label><br><br>
+                                <label class="labelgenere"><?php echo $rep;?></label>
+                                <input type="hidden" name="reponse[]" value="<?php echo $rep;?>">
+                                <br><br>
                               </div>
                               <?php
 
@@ -217,17 +338,19 @@
                             for($i=0; $i<1; $i++){
                               ?>
                               <div class="inputRep">
-                                <input type="text" name="rep" class="checkgenere"value="<?php if(!empty($_SESSION['rep'])){ echo $_SESSION['rep']; } ?>" ><br><br>
+                                <input type="text" name="rep" class="checkgenere1" placeholder="Reponse" value="<?php if(!empty($_SESSION['rep'])){ echo $_SESSION['rep']; } ?>" ><br><br>
                               </div>
                               <?php
 
                             }
                             
                           }
+                        }
                         ?>
                         </div>
                         <div class="bas">
                           <?php
+                          if(!empty($questions)){
                             if($_GET['page'] < $totalQuestion-1){
                               ?>
                                <input type="submit" value="Suivant" name="envoie" class="envoie">
@@ -243,9 +366,9 @@
                           ?>
                          
                           <input type="submit" value="Precedent" name="precedent" class="retour">
-
                           <?php
                             }
+                          }
                           ?>
                         </div>
                     </form>
