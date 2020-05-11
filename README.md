@@ -13,8 +13,8 @@ Contenu du fichier « README »
 	Le lien d’hébergement du projet
 -	http://dianaquiz.freevar.com
 	Tous les paramètres de connexion pour le teste du projet (Login et mot de passe Admin)
--	Admin/admin
--	Joueur/joueur
+-	admin/admin
+-	joueur/joueur
 	Les principales fonctionnalités du projet
 -	Créer des questions à partir de l’interface admin et répondre les questions au niveau de l’interface joueur.
 	Les technologies utilisées dans le projet
